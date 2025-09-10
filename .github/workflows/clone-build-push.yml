@@ -1,0 +1,49 @@
+name: Clone, Build & Push goNfCollector to Docker Hub
+
+on:
+  schedule:
+    - cron:  '0 0 1,15 * *'
+  workflow_dispatch:
+
+jobs:
+  clone-build-push:
+    name: Clone Repo
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      -
+        name: Clone goNfCollector
+        run: |
+          git clone https://github.com/javadmohebbi/goNfCollector.git  --depth 1 --branch main .
+          pwd
+
+      -
+        name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      -
+        name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v1
+        with:
+          images: mcnamee/gonfcollector
+
+      -
+        name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          platforms: linux/arm64
+          tags: mcnamee/gonfcollector:latest
+          context: /home/runner/work/goNfCollector/goNfCollector
