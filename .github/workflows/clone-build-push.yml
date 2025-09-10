@@ -23,6 +23,14 @@ jobs:
         run: |
           git clone https://github.com/javadmohebbi/goNfCollector.git  --depth 1 --branch main .
           pwd
+          echo ' --- '
+          echo ' --- '
+          ls -lah ./
+          echo ' --- '
+          echo ' --- '
+          ls -lah ../
+          echo ' --- '
+          echo ' --- '
 
       -
         name: Log in to Docker Hub
