@@ -46,4 +46,4 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: mcnamee/gonfcollector:latest
-          context: /home/runner/work/goNfCollector/goNfCollector
+          context: /home/runner/work/gonfcollector/gonfcollector
